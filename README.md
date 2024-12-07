@@ -1,4 +1,5 @@
-# Rose.Library
+# beRich.Library V3.0.0
+### New deployment for beRich Flask Web-app V2.0.0
 
 This project is part of a bigger project under the repository: [coldbydefault.github.io](https://github.com/ColdByDefault/coldbydefault.github.io), with the official domain: [www.coldbydefault.com](https://www.coldbydefault.com).  
 **Protected with copyrights** — It is not allowed to use, modify, or redistribute any part of this project without prior permission. For inquiries, please contact me.
