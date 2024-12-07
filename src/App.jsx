@@ -1,15 +1,30 @@
-import React, { useState, useContext } from "react";
-import Auth from "./components/Auth/Authentication";
-
-
+import React, { useState } from "react";
+import Navbar from "./components/main/Navbar";
+import SignIn from "./components/Auth/SignIn";
+import SignUp from "./components/Auth/SignUp";
+import SignOut from "./components/Auth/SignOut";
+import LandingPage from "./components/main/LandingPage";
 
 function App() {
+  const [currentView, setCurrentView] = useState("landing"); // Default to "landing" view
+
+  const renderComponent = () => {
+    switch (currentView) {
+      case "signin":
+        return <SignIn />;
+      case "signup":
+        return <SignUp />;
+      case "signout":
+        return <SignOut />;
+      default:
+        return <LandingPage />;
+    }
+  };
 
   return (
     <div>
-      <h1 className="text-4xl text-red-400">FireBase</h1>
-      <h1 className="text-4xl text-green-400">You will NOT see when you register yet... but be sure it was saved!!</h1>
-      <Auth />
+      <Navbar setCurrentView={setCurrentView} />
+      {renderComponent()}
     </div>
   );
 }
