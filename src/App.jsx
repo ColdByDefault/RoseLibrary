@@ -1,40 +1,14 @@
 import React, { useState, useContext } from "react";
-import Navbar2 from "./components/Navbar";
-import { AuthContext } from "./context/AuthContext";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Logout from "./components/Logout";
+import Auth from "./components/Auth/Authentication";
+
+
 
 function App() {
-  const { user } = useContext(AuthContext);
-  const [activeComponent, setActiveComponent] = useState("Home");
-
-  const renderContent = () => {
-    if (user) {
-      switch (activeComponent) {
-        case "Dashboard":
-          return <div>Welcome to the Dashboard!</div>;
-        case "Logout":
-          return <Logout />;
-        default:
-          return <div>Welcome back, {user}!</div>;
-      }
-    } else {
-      switch (activeComponent) {
-        case "SignUp":
-          return <SignUp />;
-        case "Login":
-          return <Login />;
-        default:
-          return <div>Welcome to ROSE Library!</div>;
-      }
-    }
-  };
 
   return (
     <div>
-      <Navbar2 setActiveComponent={setActiveComponent} />
-      <div className="p-4">{renderContent()}</div>
+      <h1 className="text-4xl text-red-400">FireBase</h1>
+      <Auth />
     </div>
   );
 }
