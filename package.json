@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://ColdByDefault.github.io/RoseLibrary",
+  "homepage": "https://ColdByDefault.github.io/beRichLibrary",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
