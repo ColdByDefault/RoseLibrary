@@ -55,10 +55,10 @@ function App() {
   return (
     <>
       {/* Background Component */}
-      <Background />
+      {/* <Background /> */}
 
       {/* Navbar and Content */}
-      <div className="relative z-10">
+      <div>
         <Navbar
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
