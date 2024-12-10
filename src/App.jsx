@@ -5,6 +5,8 @@ import SignIn from "./components/Auth/SignIn";
 import PrivacyPolicy from "./components/policies/PrivacyPolicy";
 import { auth } from "./components/config/firebase";
 import LoadingScreen from "./components/main/LoadingScreen";
+import Home from "./components/main/Home";
+import Docs from "./components/docs/Docs";
 
 
 function App() {
@@ -57,11 +59,11 @@ function App() {
   const renderSection = () => {
     switch (activeSection) {
       case "Home":
-        return <div className="w-full h-full">Home Page</div>;
+        return <Home />;
       case "Docs":
-        return <div>Documentation Page</div>;
+        return <Docs />;
       case "Links":
-        return <div>Links Page</div>;
+        return <Docs />;
       case "SignIn":
         return <SignIn setUserDetails={setUserDetails} setCurrentPage={handleSectionChange} />        ;
       case "PrivacyPolicy":
@@ -81,45 +83,42 @@ function App() {
         <div className="flex flex-col min-h-screen">
           {/* Cookies Banner */}
           {showCookiesBanner && (
-            <div className="bg-yellow-500 text-black p-3 text-center">
-              <span>
-                This website uses Firebase for authentication and localStorage to maintain your session.
-                Learn more in our{" "}
-                <button
-                  onClick={() => handleSectionChange("PrivacyPolicy")}
-                  className="underline text-blue-600"
-                >
-                  Privacy Policy
-                </button>.
-              </span>
-              <button
-                onClick={() => setShowCookiesBanner(false)}
-                className="ml-3 bg-black text-white px-3 py-1 rounded"
-              >
-                Accept
-              </button>
+            <div className="text-black bg-black/10 backdrop-blur-md
+            absolute top-0 z-50 mx-auto my-auto 
+            h-full w-full pt-24">
+              <div className="bg-yellow-400 backdrop-blur-md w-full text-center h-1/3
+              flex items-center justify-center">
+                <span>
+                  This website uses Firebase for authentication and localStorage to maintain your session.
+                  Learn more in our{" "}
+                  <button onClick={() => handleSectionChange("PrivacyPolicy")}
+                    className="underline text-blue-600">
+                    Privacy Policy
+                  </button>.
+                </span>
+                <button onClick={() => setShowCookiesBanner(false)}
+                  className="ml-3 bg-black text-white px-3 py-1 rounded">
+                  Accept
+                </button>
+              </div>
             </div>
           )}
-
           {/* Navbar */}
           <Navbar
             currentPage={activeSection}
             setCurrentPage={handleSectionChange}
             userDetails={userDetails}
-            onLogout={handleSectionChange}
-          />
-
+            onLogout={handleSectionChange}/>
           {/* Main Content with Animation */}
-          <div className="flex-grow relative z-10">
+          <div>
+            {/* Add padding-top to account for the navbar height */}
             <div
-              className={`transform transition-all duration-500 ease-in-out ${
+              className={`pt-32 transform transition-all duration-500 ease-in-out ${
                 isAnimating ? "opacity-0 scale-90" : "opacity-100 scale-100"
-              }`}
-            >
+              }`}>
               {renderSection()}
             </div>
           </div>
-
           {/* Footer */}
         </div>
       )}
