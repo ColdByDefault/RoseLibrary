@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Navbar from "./components/main/Navbar";
-import Home from "./components/main/Home";
 import SignIn from "./components/Auth/SignIn";
 import PrivacyPolicy from "./components/policies/PrivacyPolicy";
 import { auth } from "./components/config/firebase";
+import LoadingScreen from "./components/main/LoadingScreen ";
+
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("Home");
+  const [showContent, setShowContent] = useState(false);
+  const [activeSection, setActiveSection] = useState("Home");
   const [userDetails, setUserDetails] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [showCookiesBanner, setShowCookiesBanner] = useState(true);
 
   // Listen for auth state changes
@@ -27,26 +30,40 @@ function App() {
     return () => unsubscribe();
   }, []);
 
+  const handleLoadingComplete = () => {
+    setShowContent(true);
+  };
+
+  const handleSectionChange = (section) => {
+    if (activeSection !== section) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setActiveSection(section);
+        setIsAnimating(false);
+      }, 500); // Match animation duration
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
       setUserDetails(null);
-      setCurrentPage("Home");
+      setActiveSection("Home");
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
-  const renderPage = () => {
-    switch (currentPage) {
+  const renderSection = () => {
+    switch (activeSection) {
       case "Home":
-        return <Home />;
+        return <div className="w-full h-full">Home Page</div>;
       case "Docs":
         return <div>Documentation Page</div>;
       case "Links":
         return <div>Links Page</div>;
       case "SignIn":
-        return <SignIn setUserDetails={setUserDetails} setCurrentPage={setCurrentPage} />;
+        return <SignIn setUserDetails={setUserDetails} setActiveSection={setActiveSection} />;
       case "PrivacyPolicy":
         return <PrivacyPolicy />;
       default:
@@ -56,36 +73,56 @@ function App() {
 
   return (
     <>
-      {/* Cookies Banner */}
-      {showCookiesBanner && (
-        <div className="bg-yellow-500 text-black p-3 text-center">
-          <span>
-            This website uses Firebase for authentication and localStorage to maintain your session. 
-            Learn more in our{" "}
-            <button
-              onClick={() => setCurrentPage("PrivacyPolicy")}
-              className="underline text-blue-600">
-              Privacy Policy
-            </button>.
-          </span>
-          <button
-            onClick={() => setShowCookiesBanner(false)}
-            className="ml-3 bg-black text-white px-3 py-1 rounded">
-            Accept
-          </button>
+      {/* Show Loading Screen */}
+      {!showContent && <LoadingScreen onComplete={handleLoadingComplete} />}
+
+      {/* Show Main Content After Loading */}
+      {showContent && (
+        <div className="flex flex-col min-h-screen">
+          {/* Cookies Banner */}
+          {showCookiesBanner && (
+            <div className="bg-yellow-500 text-black p-3 text-center">
+              <span>
+                This website uses Firebase for authentication and localStorage to maintain your session.
+                Learn more in our{" "}
+                <button
+                  onClick={() => handleSectionChange("PrivacyPolicy")}
+                  className="underline text-blue-600"
+                >
+                  Privacy Policy
+                </button>.
+              </span>
+              <button
+                onClick={() => setShowCookiesBanner(false)}
+                className="ml-3 bg-black text-white px-3 py-1 rounded"
+              >
+                Accept
+              </button>
+            </div>
+          )}
+
+          {/* Navbar */}
+          <Navbar
+            currentPage={activeSection}
+            setCurrentPage={handleSectionChange}
+            userDetails={userDetails}
+            onLogout={handleLogout}
+          />
+
+          {/* Main Content with Animation */}
+          <div className="flex-grow relative z-10">
+            <div
+              className={`transform transition-all duration-500 ease-in-out ${
+                isAnimating ? "opacity-0 scale-90" : "opacity-100 scale-100"
+              }`}
+            >
+              {renderSection()}
+            </div>
+          </div>
+
+          {/* Footer */}
         </div>
       )}
-
-      {/* Navbar and Content */}
-      <div>
-        <Navbar
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          userDetails={userDetails}
-          onLogout={handleLogout}
-        />
-        <main className="p-4">{renderPage()}</main>
-      </div>
     </>
   );
 }
