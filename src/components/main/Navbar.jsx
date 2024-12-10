@@ -6,30 +6,27 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
 
   const handleNavigation = (page) => {
     setCurrentPage(page);
-    setMenuOpen(false); // Close menu on navigation
+    setMenuOpen(false);
   };
 
   return (
-    <nav className="bg-black border border-red-400 ">
+    <nav className="bg-black shadow-lg shadow-gray-400/10 w-2/3 mx-auto mt-4 z-50">
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
-        {/* Logo Section */}
-        <a
-          href="#"
-          onClick={() => handleNavigation("Home")}
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
+        {/* Logo Section: Update text style or layout here */}
+        <div className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             beRich<span className="text-sm absolute lg:-translate-y-1/6">.Library</span>
           </span>
-        </a>
-        {/* Right-Side Buttons */}
+        </div>
+        {/* Right-Side Buttons: Style button colors, text, or spacing */}
         <div className="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse">
           {!userDetails && (
             <a
               href="#"
               onClick={() => handleNavigation("SignIn")}
-              className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 
-                md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+              className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 
+              font-medium rounded-lg text-sm px-4 py-2 
+              md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
             >
               Sign-In
             </a>
@@ -38,7 +35,7 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
             <>
               <img
                 src={userDetails.photoURL || "https://via.placeholder.com/40"}
-                alt=""
+                alt="Profile"
                 className="w-10 h-10 rounded-full"
                 onError={(e) =>
                   (e.target.src = "https://via.placeholder.com/40")
@@ -54,7 +51,7 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
             </>
           )}
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle: Change icon or button styles here */}
           <button
             onClick={() => setMenuOpen((prev) => !prev)}
             type="button"
@@ -81,12 +78,14 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
             </svg>
           </button>
         </div>
-        {/* Main Navigation Links */}
+        {/* Main Navigation Links: Adjust hover or active states */}
         <div
           id="mega-menu-icons"
-          className={`items-center justify-between ${menuOpen ? "" : "hidden"} w-full md:flex md:w-auto md:order-1`}
+          className={`items-center justify-evenly ${
+            menuOpen ? "" : "hidden"
+          } w-full md:flex md:w-auto md:order-1`}
         >
-          <ul className="flex flex-col mt-4 font-medium md:flex-row md:mt-0 md:space-x-8 rtl:space-x-reverse">
+          <ul className="flex font-medium w-full space-x-12 items-center justify-center">
             <li>
               <a
                 href="#"
