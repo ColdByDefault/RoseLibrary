@@ -10,7 +10,7 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
   };
 
   return (
-    <nav className="bg-black shadow-lg shadow-gray-400/10 w-2/3 mx-auto mt-4 z-50">
+    <nav className="bg-black shadow-lg shadow-gray-400/10 lg:w-2/3 lg:mx-auto mt-4 z-50">
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
         {/* Logo Section: Update text style or layout here */}
         <div className="flex items-center space-x-3 rtl:space-x-reverse">
