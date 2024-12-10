@@ -19,56 +19,65 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
 
   const handleGoogleSignIn = async () => {
     try {
+      setError(""); // Clear previous errors
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      setUserDetails({ username: user.displayName, photoURL: user.photoURL });
-      setError("");
-      setCurrentPage("Home"); // Redirect to Home
+
+      if (user) {
+        setUserDetails({ username: user.displayName, photoURL: user.photoURL });
+        setCurrentPage && setCurrentPage("Home"); // Redirect to Home if function is provided
+      }
     } catch (error) {
+      console.error("Google Sign-In Error:", error);
       setError("Google sign-in failed. Please try again.");
     }
   };
 
   const handleEmailSignUp = async () => {
-    if (!username.trim()) {
-      setError("Username is required.");
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Invalid email format.");
-      return;
-    }
-
-    if (password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
-      setError(
-        "Password must be at least 8 characters long and include at least one uppercase letter and one number."
-      );
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
     try {
+      setError(""); // Clear previous errors
+
+      if (!username.trim()) {
+        setError("Username is required.");
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setError("Invalid email format.");
+        return;
+      }
+
+      if (password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
+        setError(
+          "Password must be at least 8 characters long and include at least one uppercase letter and one number."
+        );
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setUserDetails({
-        username,
-        photoURL: null,
-      });
-      setError("");
-      setCurrentPage("Home"); // Redirect to Home
+      const user = userCredential.user;
+
+      if (user) {
+        setUserDetails({
+          username,
+          photoURL: null,
+        });
+        setCurrentPage && setCurrentPage("Home"); // Redirect to Home if function is provided
+      }
     } catch (error) {
+      console.error("Sign-Up Error:", error);
       setError("Sign-up failed. Please try again.");
     }
   };
 
   return (
-    <>
-      <div className="w-full h-[90vh] flex items-start justify-center mt-8">
-        <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg w-full lg:w-1/3">
+    <div className="w-full h-[90vh] flex items-start justify-center mt-8">
+      <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg w-full lg:w-1/3">
         <h1 className="text-2xl font-bold text-center mb-6">Sign In</h1>
         {error && <p className="bg-red-500 text-white text-sm p-2 rounded mb-4">{error}</p>}
         <div className="mb-4">
@@ -131,8 +140,7 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
           <span>Sign In with Google</span>
         </button>
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 

@@ -6,8 +6,12 @@ const Logout = ({ setUserDetails, setCurrentPage }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUserDetails(null);
-      setCurrentPage("Home");
+      if (typeof setUserDetails === "function") {
+        setUserDetails(null);
+      }
+      if (typeof setCurrentPage === "function") {
+        setCurrentPage("Home");
+      }
     } catch (error) {
       console.error("Logout failed:", error);
     }

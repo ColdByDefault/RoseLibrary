@@ -4,7 +4,7 @@ import Navbar from "./components/main/Navbar";
 import SignIn from "./components/Auth/SignIn";
 import PrivacyPolicy from "./components/policies/PrivacyPolicy";
 import { auth } from "./components/config/firebase";
-import LoadingScreen from "./components/main/LoadingScreen ";
+import LoadingScreen from "./components/main/LoadingScreen";
 
 
 function App() {
@@ -63,7 +63,7 @@ function App() {
       case "Links":
         return <div>Links Page</div>;
       case "SignIn":
-        return <SignIn setUserDetails={setUserDetails} setActiveSection={setActiveSection} />;
+        return <SignIn setUserDetails={setUserDetails} setCurrentPage={handleSectionChange} />        ;
       case "PrivacyPolicy":
         return <PrivacyPolicy />;
       default:
@@ -106,7 +106,7 @@ function App() {
             currentPage={activeSection}
             setCurrentPage={handleSectionChange}
             userDetails={userDetails}
-            onLogout={handleLogout}
+            onLogout={handleSectionChange}
           />
 
           {/* Main Content with Animation */}
