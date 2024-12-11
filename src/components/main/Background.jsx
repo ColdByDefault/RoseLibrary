@@ -7,19 +7,11 @@ const Background = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    const resizeCanvas = () => {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
-    };
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    const starRadius = 0.9;
     const starCount = 200;
     const stars = [];
-    const speed = 0.5;
-    const maxDepth = 5;
+    const speed = 0.3;
+    const maxDepth = 4;
+    const sizes = [0.3, 1, 0.6, 0.02];
 
     const createStar = () => {
       const x = Math.random() * canvas.width;
@@ -27,7 +19,9 @@ const Background = () => {
       const z = Math.random() * maxDepth;
       const dx = (Math.random() - 0.5) * speed * (z / maxDepth);
       const dy = (Math.random() - 0.5) * speed * (z / maxDepth);
-      return { x, y, dx, dy, z };
+      const size = sizes[Math.floor(Math.random() * sizes.length)];
+      const shineFactor = Math.random(); 
+      return { x, y, dx, dy, z, size, shineFactor, shineDirection: 1 };
     };
 
     const initializeStars = () => {
@@ -37,11 +31,19 @@ const Background = () => {
       }
     };
 
+    const resizeCanvas = () => {
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+      initializeStars(); // Reinitialize stars on resize to fit new dimensions
+    };
+
     const drawStar = (star) => {
       ctx.beginPath();
-      const adjustedRadius = starRadius * (star.z / maxDepth);
+      const adjustedRadius = star.size * (star.z / maxDepth) ;
       ctx.arc(star.x, star.y, adjustedRadius, 0, Math.PI * 2);
       ctx.fillStyle = "#b8e3ff";
+      ctx.shadowBlur = adjustedRadius;
+      ctx.shadowColor = "rgba(184, 227, 255, 0.8)";
       ctx.fill();
       ctx.closePath();
     };
@@ -50,10 +52,16 @@ const Background = () => {
       star.x += star.dx;
       star.y += star.dy;
 
-      if (star.x - starRadius > canvas.width) star.x = -starRadius;
-      if (star.x + starRadius < 0) star.x = canvas.width + starRadius;
-      if (star.y - starRadius > canvas.height) star.y = -starRadius;
-      if (star.y + starRadius < 0) star.y = canvas.height + starRadius;
+      // Wrap stars around screen edges
+      if (star.x - star.size > canvas.width) star.x = -star.size;
+      if (star.x + star.size < 0) star.x = canvas.width + star.size;
+      if (star.y - star.size > canvas.height) star.y = -star.size;
+      if (star.y + star.size < 0) star.y = canvas.height + star.size;
+
+      // Update shine factor for "shining" effect
+      star.shineFactor += star.shineDirection * 0.002;
+      if (star.shineFactor >= 1.5) star.shineDirection = -1;
+      if (star.shineFactor <= 0.5) star.shineDirection = 1;
     };
 
     const animate = () => {
@@ -65,6 +73,8 @@ const Background = () => {
       requestAnimationFrame(animate);
     };
 
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
     initializeStars();
     animate();
 
