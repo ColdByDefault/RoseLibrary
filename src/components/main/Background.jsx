@@ -7,11 +7,12 @@ const Background = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    const starCount = 200;
+    const starCount = 150; // Adjust for density
     const stars = [];
-    const speed = 0.3;
-    const maxDepth = 4;
-    const sizes = [0.3, 1, 0.6, 0.02];
+    const speed = 0.3; // Adjust for movement speed
+    const maxDepth = 50;
+    const sizes = [0.5, 1, 1.5]; // Different sizes for variety
+    let shiningStarIndex = -1; // Tracks the currently shining star
 
     const createStar = () => {
       const x = Math.random() * canvas.width;
@@ -20,8 +21,7 @@ const Background = () => {
       const dx = (Math.random() - 0.5) * speed * (z / maxDepth);
       const dy = (Math.random() - 0.5) * speed * (z / maxDepth);
       const size = sizes[Math.floor(Math.random() * sizes.length)];
-      const shineFactor = Math.random(); 
-      return { x, y, dx, dy, z, size, shineFactor, shineDirection: 1 };
+      return { x, y, dx, dy, z, size, shineFactor: 1 };
     };
 
     const initializeStars = () => {
@@ -31,62 +31,73 @@ const Background = () => {
       }
     };
 
-    const resizeCanvas = () => {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
-      initializeStars(); // Reinitialize stars on resize to fit new dimensions
-    };
-
-    const drawStar = (star) => {
+    const drawStar = (star, isShining) => {
       ctx.beginPath();
-      const adjustedRadius = star.size * (star.z / maxDepth) ;
-      ctx.arc(star.x, star.y, adjustedRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "#b8e3ff";
-      ctx.shadowBlur = adjustedRadius;
-      ctx.shadowColor = "rgba(184, 227, 255, 0.8)";
+      const adjustedRadius = star.size * (star.z / maxDepth) * star.shineFactor;
+      ctx.arc(star.x, star.y, adjustedRadius, 0, Math.PI);
+      ctx.fillStyle = isShining ? "#ffffff" : "#b8e3ff"; // White for shining star
+      ctx.shadowBlur = isShining ? 10 : 5; // Glow intensity for shining stars
+      ctx.shadowColor = isShining ? "#0582dbf1" : "transparent"; // High-opacity glow
       ctx.fill();
       ctx.closePath();
     };
 
     const updateStar = (star) => {
+      // Move the star
       star.x += star.dx;
       star.y += star.dy;
 
       // Wrap stars around screen edges
-      if (star.x - star.size > canvas.width) star.x = -star.size;
-      if (star.x + star.size < 0) star.x = canvas.width + star.size;
-      if (star.y - star.size > canvas.height) star.y = -star.size;
-      if (star.y + star.size < 0) star.y = canvas.height + star.size;
+      if (star.x > canvas.width) star.x = 0;
+      if (star.x < 0) star.x = canvas.width;
+      if (star.y > canvas.height) star.y = 0;
+      if (star.y < 0) star.y = canvas.height;
+    };
 
-      // Update shine factor for "shining" effect
-      star.shineFactor += star.shineDirection * 0.002;
-      if (star.shineFactor >= 1.5) star.shineDirection = -1;
-      if (star.shineFactor <= 0.5) star.shineDirection = 1;
+    const selectShiningStar = () => {
+      // Reset the previous shining star
+      if (shiningStarIndex >= 0) {
+        stars[shiningStarIndex].shineFactor = 1;
+      }
+
+      // Select a new random star to shine
+      shiningStarIndex = Math.floor(Math.random() * stars.length);
+      const shiningStar = stars[shiningStarIndex];
+      shiningStar.shineFactor = 2; // Increase the size of the star while shining
     };
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach((star) => {
-        drawStar(star);
+      stars.forEach((star, index) => {
+        const isShining = index === shiningStarIndex;
+        drawStar(star, isShining);
         updateStar(star);
       });
       requestAnimationFrame(animate);
     };
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    // Set canvas size and initialize stars
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
     initializeStars();
+
+    // Start animation
     animate();
 
+    // Handle one shining star at a time
+    const shineInterval = setInterval(() => {
+      selectShiningStar();
+    }, 500); // Change star every second
+
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      clearInterval(shineInterval);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute top-0 mx-auto w-full h-full z-[-1] bg-black lg:rounded-xl"
+      className="hidden lg:block lg:absolute lg:top-0 lg:mx-auto lg:w-full lg:h-full lg:z-[-1] lg:bg-black lg:rounded-xl"
     />
   );
 };
