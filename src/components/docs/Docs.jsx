@@ -1,5 +1,4 @@
 import React from "react";
-import RandomDotsBackground from "../main/Background";
 
 
 function Docs() {

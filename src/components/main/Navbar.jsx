@@ -10,7 +10,7 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
   };
 
   return (
-    <nav className="absolute top-0 z-10 w-full mt-2 border-b-1">
+    <nav className="absolute top-0 z-10 w-full mt-2 border-b-1 bg-black">
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
         {/* Logo Section: Update text style or layout here */}
         <div className="flex items-center space-x-3 rtl:space-x-reverse">

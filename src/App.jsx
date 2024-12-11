@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Navbar from "./components/main/Navbar";
 import SignIn from "./components/Auth/SignIn";
@@ -7,7 +7,6 @@ import { auth } from "./components/config/firebase";
 import LoadingScreen from "./components/main/LoadingScreen";
 import Home from "./components/main/Home";
 import Docs from "./components/docs/Docs";
-import RandomDotsBackground from "./components/main/Background";
 
 function App() {
   const [showContent, setShowContent] = useState(false);
@@ -15,7 +14,6 @@ function App() {
   const [userDetails, setUserDetails] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showCookiesBanner, setShowCookiesBanner] = useState(true);
-  const navbarRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

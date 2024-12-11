@@ -1,5 +1,4 @@
 import React from "react";
-import RandomDotsBackground from "./Background";
 import "../../styles/title.css"
 
 
