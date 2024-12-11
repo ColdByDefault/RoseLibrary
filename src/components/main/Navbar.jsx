@@ -20,7 +20,7 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
               {/* Navbar content remains unchanged */}
               {/* Logo Section */}
               <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                <span className="text-focus-in self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
                   be<span className="text-blue-500">R</span>ich<span className="text-sm absolute 
                   lg:-translate-y-1/6 text-blue-400">.Library</span>
                 </span>
@@ -35,7 +35,7 @@ function Navbar({ currentPage, setCurrentPage, userDetails, setUserDetails }) {
                     font-medium rounded-lg text-sm px-4 py-2 
                     md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none 
                     dark:focus:ring-gray-800">
-                    Sign-In
+                    Account
                   </a>
                 )}
                 {userDetails && (

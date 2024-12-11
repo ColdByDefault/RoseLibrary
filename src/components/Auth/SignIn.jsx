@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, googleProvider } from "../config/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +16,7 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isLoginMode, setIsLoginMode] = useState(false); // Toggle between Sign Up and Log In
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -19,13 +24,13 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
 
   const handleGoogleSignIn = async () => {
     try {
-      setError(""); // Clear previous errors
+      setError("");
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
       if (user) {
         setUserDetails({ username: user.displayName, photoURL: user.photoURL });
-        setCurrentPage && setCurrentPage("Home"); // Redirect to Home if function is provided
+        setCurrentPage && setCurrentPage("Home");
       }
     } catch (error) {
       console.error("Google Sign-In Error:", error);
@@ -35,7 +40,7 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
 
   const handleEmailSignUp = async () => {
     try {
-      setError(""); // Clear previous errors
+      setError("");
 
       if (!username.trim()) {
         setError("Username is required.");
@@ -67,7 +72,7 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
           username,
           photoURL: null,
         });
-        setCurrentPage && setCurrentPage("Home"); // Redirect to Home if function is provided
+        setCurrentPage && setCurrentPage("Home");
       }
     } catch (error) {
       console.error("Sign-Up Error:", error);
@@ -75,21 +80,52 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
     }
   };
 
+  const handleEmailLogin = async () => {
+    try {
+      setError("");
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setError("Invalid email format.");
+        return;
+      }
+
+      if (!password) {
+        setError("Password is required.");
+        return;
+      }
+
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (user) {
+        setUserDetails({ username: user.displayName || "User", photoURL: user.photoURL || null });
+        setCurrentPage && setCurrentPage("Home");
+      }
+    } catch (error) {
+      console.error("Log In Error:", error);
+      setError("Login failed. Please check your credentials and try again.");
+    }
+  };
+
   return (
     <div className="w-full h-[90vh] flex items-start justify-center mt-8">
       <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg w-full lg:w-1/3">
-        <h1 className="text-2xl font-bold text-center mb-6">Sign In</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">
+          {isLoginMode ? "Log In" : "Sign Up"}
+        </h1>
         {error && <p className="bg-red-500 text-white text-sm p-2 rounded mb-4">{error}</p>}
-        <div className="mb-4">
-          <label className="block text-gray-300 mb-2">Username *</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
-            className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-          />
-        </div>
+        {!isLoginMode && (
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Username *</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+            />
+          </div>
+        )}
         <div className="mb-4">
           <label className="block text-gray-300 mb-2">Email *</label>
           <input
@@ -116,29 +152,39 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
           </span>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-300 mb-2">Confirm Password *</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm your password"
-            className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-          />
-        </div>
+        {!isLoginMode && (
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Confirm Password *</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm your password"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+            />
+          </div>
+        )}
         <button
-          onClick={handleEmailSignUp}
+          onClick={isLoginMode ? handleEmailLogin : handleEmailSignUp}
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
         >
-          Submit
+          {isLoginMode ? "Log In" : "Sign Up"}
         </button>
         <button
           onClick={handleGoogleSignIn}
           className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 mt-4 flex items-center justify-center space-x-2"
         >
           <FontAwesomeIcon icon={faGoogle} />
-          <span>Sign In with Google</span>
+          <span>{isLoginMode ? "Log In with Google" : "Sign Up with Google"}</span>
         </button>
+        <p
+          onClick={() => setIsLoginMode((prev) => !prev)}
+          className="mt-4 text-sm text-center text-blue-400 cursor-pointer hover:underline"
+        >
+          {isLoginMode
+            ? "Don't have an account? Sign Up"
+            : "Already have an account? Log In"}
+        </p>
       </div>
     </div>
   );
