@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Navbar from "./components/main/Navbar";
 import SignIn from "./components/Auth/SignIn";
@@ -7,7 +7,7 @@ import { auth } from "./components/config/firebase";
 import LoadingScreen from "./components/main/LoadingScreen";
 import Home from "./components/main/Home";
 import Docs from "./components/docs/Docs";
-
+import RandomDotsBackground from "./components/main/Background";
 
 function App() {
   const [showContent, setShowContent] = useState(false);
@@ -15,8 +15,8 @@ function App() {
   const [userDetails, setUserDetails] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showCookiesBanner, setShowCookiesBanner] = useState(true);
+  const navbarRef = useRef(null);
 
-  // Listen for auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -42,7 +42,7 @@ function App() {
       setTimeout(() => {
         setActiveSection(section);
         setIsAnimating(false);
-      }, 500); // Match animation duration
+      }, 500);
     }
   };
 
@@ -65,7 +65,12 @@ function App() {
       case "Links":
         return <Docs />;
       case "SignIn":
-        return <SignIn setUserDetails={setUserDetails} setCurrentPage={handleSectionChange} />        ;
+        return (
+          <SignIn
+            setUserDetails={setUserDetails}
+            setCurrentPage={handleSectionChange}
+          />
+        );
       case "PrivacyPolicy":
         return <PrivacyPolicy />;
       default:
@@ -75,51 +80,40 @@ function App() {
 
   return (
     <>
-      {/* Show Loading Screen */}
       {!showContent && <LoadingScreen onComplete={handleLoadingComplete} />}
-
-      {/* Show Main Content After Loading */}
       {showContent && (
-        <div className="flex flex-col min-h-screen">
+        <div className="relative flex flex-col min-h-screen">
+          {/* Random Dots Background */}
           {/* Cookies Banner */}
           {showCookiesBanner && (
-            <div className="text-black bg-black/10 backdrop-blur-md
-            absolute top-0 z-50 mx-auto my-auto 
-            h-full w-full pt-24">
-              <div className="bg-yellow-400 backdrop-blur-md w-full text-center h-1/3
-              flex items-center justify-center">
-                <span>
-                  This website uses Firebase for authentication and localStorage to maintain your session.
-                  Learn more in our{" "}
+            <div className="absolute top-0 z-50 h-full w-full bg-black/10 backdrop-blur-md flex items-center justify-center"
+              aria-live="assertive">
+              <div className="bg-yellow-400 p-4 rounded-lg text-center max-w-lg">
+                <p>
+                  This website uses Firebase for authentication and
+                  localStorage to maintain your session. Learn more in our{" "}
                   <button onClick={() => handleSectionChange("PrivacyPolicy")}
                     className="underline text-blue-600">
                     Privacy Policy
                   </button>.
-                </span>
+                </p>
                 <button onClick={() => setShowCookiesBanner(false)}
-                  className="ml-3 bg-black text-white px-3 py-1 rounded">
+                  className="mt-2 bg-black text-white px-4 py-2 rounded">
                   Accept
                 </button>
               </div>
             </div>
           )}
           {/* Navbar */}
-          <Navbar
-            currentPage={activeSection}
+          <Navbar currentPage={activeSection}
             setCurrentPage={handleSectionChange}
-            userDetails={userDetails}
-            onLogout={handleSectionChange}/>
-          {/* Main Content with Animation */}
-          <div>
-            {/* Add padding-top to account for the navbar height */}
-            <div
-              className={`pt-32 transform transition-all duration-500 ease-in-out ${
-                isAnimating ? "opacity-0 scale-90" : "opacity-100 scale-100"
-              }`}>
-              {renderSection()}
-            </div>
+            userDetails={userDetails}/>
+          {/* Main Content */}
+          <div className={`pt-32 transform transition-all duration-500 ease-in-out ${
+              isAnimating ? "opacity-0 scale-90" : "opacity-100 scale-100"
+            }`}>
+            {renderSection()}
           </div>
-          {/* Footer */}
         </div>
       )}
     </>
