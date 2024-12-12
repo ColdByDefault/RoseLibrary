@@ -1,4 +1,5 @@
 import React from "react";
+import Background from "./Background";
 
 function Home() {
   return (
@@ -28,41 +29,46 @@ function Home() {
       <div className="w-full h-screen bg-blue-200 flex items-center justify-center relative">
       {/* Left Content */}
       <div className="text-black  w-full lg:w-1/2 px-8 lg:px-16">
-        <h4 className="uppercase text-sm tracking-wider mb-2">Exclusive Access</h4>
-        <h1 className="text-5xl lg:text-6xl font-bold mb-4">
-          To BeRich =&gt; <span className="text-blue-400">Digital Library</span>
+        <h4 className="uppercase text-sm tracking-wider mb-2">Exclusive Window</h4>
+        <h1 className="text-2xl lg:text-5xl font-bold mb-4">
+          To beRich =&gt; <span className="text-blue-400">&#123;Digital Library&#125;
+          </span>
         </h1>
         <p className="text-black text-lg mb-6">
-          A personal hub for developers and computer science enthusiasts. Upload, store, and access exclusive materials like PDFs, articles, and school resources—all in one place.
+        This is my personal hub where I upload documentation, books, and learning materials tailored for software developers. 
+        As I progress in my academic journey, I share my experiences, roadmaps, and curated resources to inspire and support others in their learning.
         </p>
         <div className="flex space-x-4">
-          <a
-            href="#"
-            className="bg-blue-400 text-black font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-300 transition"
-          >
+          <a href="#"
+            className="bg-blue-400 text-black font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-300 transition">
             Get Started
           </a>
-          <a
-            href="https://github.com/ColdByDefault/beRichLibrary"
+          <a href="https://github.com/ColdByDefault/beRichLibrary"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-transparent border border-white font-semibold text-white py-3 px-6 rounded-lg hover:bg-white hover:text-black transition"
-          >
+            className="bg-transparent border border-white font-semibold text-white py-3 px-6 rounded-lg hover:bg-white hover:text-black transition">
             Learn More
           </a>
         </div>
       </div>
-
-      {/* Right Image */}
-      <div className="hidden lg:block w-full lg:w-1/2">
-        <img
-          src="./23.png"
-          alt="PC Setup"
-          className="w-1/3 h-1/3 object-contain drop-shadow-lg rotate-6"
-        />
+    </div>
+    <div className="hidden lg:block">
+      <div className="w-32 h-32 absolute top-0 z-50 translate-x-32 translate-y-64">
+          <Background />
+      </div>
+      <div className="w-32 h-32 absolute z-50 translate-x-72 -translate-y-64">
+          <Background />
+      </div>
+      <div className="w-32 h-32 absolute right-0 z-50 -translate-x-2/3 -translate-y-64">
+          <Background />
+      </div>
+      <div className="w-32 h-32 absolute top-0 right-0 z-50 -translate-x-2/3 translate-y-32">
+          <Background />
+      </div>
+      <div className="w-32 h-32 absolute top-56 right-96 z-50 -translate-x-52 ">
+          <Background />
       </div>
     </div>
-    
     </>
   );
 }
