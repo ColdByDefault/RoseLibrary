@@ -107,7 +107,7 @@ function App() {
             setCurrentPage={handleSectionChange}
             userDetails={userDetails}/>
           {/* Main Content */}
-          <div className={`pt-32 transform transition-all duration-500 ease-in-out ${
+          <div className={`transform transition-all duration-500 ease-in-out ${
               isAnimating ? "opacity-0 scale-90" : "opacity-100 scale-100"
             }`}>
             {renderSection()}
