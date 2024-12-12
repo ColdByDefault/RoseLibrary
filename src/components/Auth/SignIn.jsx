@@ -16,7 +16,7 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [isLoginMode, setIsLoginMode] = useState(false); // Toggle between Sign Up and Log In
+  const [isLoginMode, setIsLoginMode] = useState(false); 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
