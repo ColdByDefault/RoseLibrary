@@ -17,7 +17,7 @@ This website is a client-side implementation that relies on Firebase for backend
 ### Risk
 
 The exposed API key can potentially be exploited by attackers to:
-- Perform unauthorized operations on your Firebase project within the scope of allowed APIs.
+- Perform unauthorized operations on Firebase project within the scope of allowed APIs.
 - Exhaust usage quotas or incur additional costs if APIs are misused.
 
 ### Current Mitigation
