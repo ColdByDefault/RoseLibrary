@@ -4,7 +4,8 @@ import Background from "./Background";
 function Home() {
   return (
     <>
-      <div className="w-full h-screen flex items-center justify-center relative z-20">
+      <div className="w-full h-screen flex items-center justify-center relative z-20 bg-blue-200 lg:bg-transparent">
+
       {/* Left Content */}
       <div className="text-black  w-full lg:w-1/2 px-8 lg:px-16">
         <h4 className="uppercase text-sm tracking-wider mb-2">Exclusive Window</h4>
@@ -33,27 +34,44 @@ function Home() {
       </div>
     </div>
     <div className="hidden lg:grid grid-cols-3 grid-rows-3 gap-8 w-full h-screen absolute top-0 z-10 bg-blue-200 ">
-      {/* Randomly positioned squares */}
-      <div className="absolute w-32 h-32 z-50 top-16 left-12">
-        <Background />
-      </div>
-      <div className="absolute w-32 h-32 z-50 top-48 left-48">
-        <Background />
-      </div>
-      <div className="absolute w-32 h-32 z-50 top-64 right-8">
-        <Background />
-      </div>
-
-      <div className="absolute w-32 h-32 z-50 bottom-32 right-96">
-        <Background />
-      </div>
-      <div className="absolute w-32 h-32 z-50 bottom-16 left-24">
-        <Background />
-      </div>
-      <div className="absolute w-32 h-32 z-50 bottom-48 right-32">
-        <Background />
-      </div>
-    </div>
+  {/* Randomly positioned squares */}
+  <div className="absolute w-32 h-32 z-50 top-16 left-12">
+    <Background /> 
+  </div>
+  <div className="absolute w-32 h-32 z-50 top-48 left-48">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 top-64 right-8">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 top-24 right-64">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 bottom-32 right-96">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 bottom-16 left-24">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 bottom-48 right-32">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 top-8 left-64">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 top-96 left-96">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 bottom-64 right-16">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 top-32 left-8">
+    <Background />
+  </div>
+  <div className="absolute w-32 h-32 z-50 bottom-24 left-48">
+    <Background />
+  </div>
+</div>
     </>
   );
 }
