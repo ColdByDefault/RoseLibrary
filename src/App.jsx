@@ -88,6 +88,7 @@ function App() {
               aria-live="assertive">
               <div className="bg-yellow-400 p-4 rounded-lg text-center max-w-lg">
                 <p>
+                  <span className="text-red-500">PLEASE REVIEW THE SECURITY ISSUE ON GITHUB BEFORE PROCEEDING</span><br />
                   This website uses Firebase for authentication and
                   localStorage to maintain your session. Learn more in our{" "}
                   <button onClick={() => handleSectionChange("PrivacyPolicy")}

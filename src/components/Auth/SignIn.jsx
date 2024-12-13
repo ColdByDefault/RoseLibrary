@@ -16,7 +16,7 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [isLoginMode, setIsLoginMode] = useState(false); 
+  const [isLoginMode, setIsLoginMode] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -49,13 +49,6 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         setError("Invalid email format.");
-        return;
-      }
-
-      if (password.length < 8 || !/[A-Z]/.test(password) || !/\d/.test(password)) {
-        setError(
-          "Password must be at least 8 characters long and include at least one uppercase letter and one number."
-        );
         return;
       }
 
@@ -122,19 +115,17 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-            />
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring
+            focus:ring-blue-500"/>
           </div>
         )}
         <div className="mb-4">
           <label className="block text-gray-300 mb-2">Email *</label>
-          <input
-            type="email"
+          <input type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-          />
+            className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"/>
         </div>
         <div className="mb-4 relative">
           <label className="block text-gray-300 mb-2">Password *</label>
@@ -179,8 +170,7 @@ const SignIn = ({ setUserDetails, setCurrentPage }) => {
         </button>
         <p
           onClick={() => setIsLoginMode((prev) => !prev)}
-          className="mt-4 text-sm text-center text-blue-400 cursor-pointer hover:underline"
-        >
+          className="mt-4 text-sm text-center text-blue-400 cursor-pointer hover:underline">
           {isLoginMode
             ? "Don't have an account? Sign Up"
             : "Already have an account? Log In"}
