@@ -25,3 +25,9 @@ dist-ssr
 
 # Keys
 .env
+
+
+# local cert
+# for localhost Authentication
+localhost+2-key.pem
+localhost+2.pem

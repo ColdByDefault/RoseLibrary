@@ -16,19 +16,30 @@ function App() {
   const [showCookiesBanner, setShowCookiesBanner] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUserDetails({
-          username: user.displayName || user.email,
-          photoURL: user.photoURL,
-        });
+        await user.reload(); // Ensures emailVerified status is fresh
+        const emailVerified = user.emailVerified || user.providerData[0]?.providerId === "google.com";
+  
+        if (emailVerified) {
+          // Allow access only if email is verified or user signed in with Google
+          setUserDetails({
+            username: user.displayName || user.email,
+            photoURL: user.photoURL || null,
+          });
+          setActiveSection("Home"); // Automatically redirect to Home with Docs/Links
+        } else {
+          setUserDetails(null);
+          console.warn("Email not verified. Access restricted.");
+        }
       } else {
         setUserDetails(null);
       }
     });
-
+  
     return () => unsubscribe();
   }, []);
+  
 
   const handleLoadingComplete = () => {
     setShowContent(true);
@@ -87,15 +98,14 @@ function App() {
             <div className="absolute top-0 z-50 h-full w-full bg-black/10 backdrop-blur-md flex items-center justify-center"
               aria-live="assertive">
               <div className="bg-yellow-400 p-4 rounded-lg text-center max-w-lg">
-                <p>
-                  <span className="text-red-500">PLEASE REVIEW THE SECURITY ISSUE ON GITHUB BEFORE PROCEEDING</span><br />
+                <div>
                   This website uses Firebase for authentication and
                   localStorage to maintain your session. Learn more in our{" "}
                   <button onClick={() => handleSectionChange("PrivacyPolicy")}
                     className="underline text-blue-600">
                     Privacy Policy
                   </button>.
-                </p>
+                </div>
                 <button onClick={() => setShowCookiesBanner(false)}
                   className="mt-2 bg-black text-white px-4 py-2 rounded">
                   Accept
