@@ -40,7 +40,7 @@ function Home() {
           <h4 className="uppercase text-sm tracking-wider mb-2">Exclusive Window</h4>
           <h1 className="text-2xl lg:text-5xl font-bold mb-4"
             style={{ transform: "translateZ(20px)" }}>
-            beRich =&gt; <span className="text-blue-400">&#123;Digital Library&#125;</span>
+            beRich<span className="text-sm">v3.0.0</span> =&gt;<span className="text-blue-400">&#123;Digital Library&#125;</span>
           </h1>
           <p className="text-white text-lg mb-6 max-w-2xl mx-auto" style={{textShadow: "0px 2px 10px #5b7080f1",}}>
             This is my personal hub where I upload documentation, books, and learning materials tailored for software developers.
