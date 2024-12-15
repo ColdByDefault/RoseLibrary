@@ -6,11 +6,11 @@
 html, body {
     scroll-behavior: smooth;
     font-family: "Hubot Sans", sans-serif;
-    background: rgba(0, 0, 0, 0.911);
+    background: #000000;
 }
 
 
 
 .test-colors {
-    color: #0582dbf1;
+    color: rgba(2, 20, 41, 0.842);
 }

@@ -80,10 +80,12 @@ const MiniBackground = () => {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="w-full h-full bg-black rounded-full"
-    />
+<canvas
+  ref={canvasRef}
+  className="w-full h-full bg-black/70 rounded-full "
+/>
+
+
   );
 };
 
