@@ -1,6 +1,9 @@
+
+**Version 3.1.1 is available** => Visit [beRichLibrary](https://github.com/ColdByDefault/beRichLibrary_Fullstack)
+---
 # beRich.Library V3.0.0
 ### New deployment for beRich Flask Web-app V2.0.0
-### !IMPORTANT Review Security Issue 
+
 
 This project is part of a bigger project under the repository: [coldbydefault.github.io](https://github.com/ColdByDefault/coldbydefault.github.io), with the official domain: [www.coldbydefault.com](https://www.coldbydefault.com).  
 **Protected with copyrights** — It is not allowed to use, modify, or redistribute any part of this project without prior permission. For inquiries, please contact me.
@@ -29,8 +32,7 @@ The project is built using the following technologies:
 
 ## Official Website
 
-The official deployment of this project is hosted at:  
-[www.coldbydefault.com/RoseLibrary](https://www.coldbydefault.com/RoseLibrary)
+The official deployment of this project was removed for security issues
 
 ---
 
