@@ -6,7 +6,8 @@ This project is a client-side-only implementation hosted on GitHub Pages, which 
 
 | Version | Supported          |
 | ------- | ------------------ |
-| < 1.0   | :x:                |
+| < 3.0.0   | :x:                |
+| > 3.1.1   | ✅              |
 
 ## Known Vulnerability: Firebase API Key Exposure
 
