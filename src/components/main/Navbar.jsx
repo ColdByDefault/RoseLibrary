@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Background from "./Background";
 
-function Navbar({ currentPage, setCurrentPage }) {
+function Navbar({ setCurrentPage }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNavigation = (page) => {
