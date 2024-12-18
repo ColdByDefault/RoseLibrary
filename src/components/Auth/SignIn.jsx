@@ -52,7 +52,7 @@ const SignIn = () => {
       setError("Verification email sent. Please check your inbox.");
     } catch (error) {
       console.error("Sign-Up Error:", error);
-      setError("Sign-up failed. Please try again.");
+      setError("Sign-up failed. Please try again.!");
     }
   };
   
