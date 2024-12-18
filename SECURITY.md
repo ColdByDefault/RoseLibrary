@@ -10,7 +10,7 @@ This project is a client-side-only implementation hosted on GitHub Pages, which 
 | > 3.1.1   | ✅              |
 
 ## Known Vulnerability: Firebase API Key Exposure
-
+**Although, Firebase was removed, this Note was kept as a reminder**
 ### Description
 
 This website is a client-side implementation that relies on Firebase for backend services and is hosted on GitHub Pages. Due to the absence of server-side backend scripts, sensitive credentials, including API keys, are embedded in the frontend JavaScript code. While the API key is restricted to specific domains and APIs, it is still visible to anyone inspecting the application's source files or network requests.
@@ -37,6 +37,5 @@ If you discover a security vulnerability or a better solution to secure the proj
 2. **Response Time**: Expect an acknowledgment within 2 business days. Updates will be shared regularly until resolution.
 
 ### Notes:
-- Transitioning to a secure backend server for API key handling and sensitive operations is planned for future releases.
-- Until then, users are encouraged to exercise caution and limit sensitive operations through the frontend.
+- See Version 3.1.1.
 
